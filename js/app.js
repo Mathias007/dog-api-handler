@@ -39,13 +39,15 @@ class Doggo {
 
     init() {
         this.showLoading();
-        this.getRandomImage().then(src => {
-            this.imgEl.setAttribute("src", src);
-            this.backgroundEl.style.background = `url("${src}")`;
-            this.hideLoading();
-        });
+        this.getRandomImage().then(img => this.showImageWhenReady(img));
 
         this.showAllBreeds();
+    }
+
+    showImageWhenReady(image) {
+        this.imgEl.setAttribute("src", image);
+        this.backgroundEl.style.background = `url("${image}")`;
+        this.hideLoading();
     }
 
     addBreed(breed, subBreed) {
@@ -67,12 +69,11 @@ class Doggo {
         tileContent.classList.add("tiles__tile-content");
         tileContent.innerText = name;
         tileContent.addEventListener("click", () => {
+            window.scrollTo(0, 0);
             this.showLoading();
-            this.getRandomImageByBreed(type).then(src => {
-                this.imgEl.setAttribute("src", src);
-                this.backgroundEl.style.background = `url("${src}")`;
-                this.hideLoading();
-            });
+            this.getRandomImageByBreed(type).then(img =>
+                this.showImageWhenReady(img)
+            );
         });
 
         tile.appendChild(tileContent);
